@@ -315,7 +315,7 @@ func translateNode(node *v1.Node, topologyLabel string) *mesh.Node {
 			discoveredEndpoints = nil
 		}
 	}
-	// Set allowed IPs for a  location.
+	// Set allowed IPs for a location.
 	var allowedLocationIPs []*net.IPNet
 	if str, ok := node.ObjectMeta.Annotations[allowedLocationIPsKey]; ok {
 		for _, ip := range strings.Split(str, ",") {

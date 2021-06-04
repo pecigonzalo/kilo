@@ -109,7 +109,7 @@ func (t *Topology) Routes(kiloIfaceName string, kiloIface, privIface, tunlIface 
 				}, enc.Strategy(), t.privateIP, tunlIface))
 			}
 			// For segments / locations other than the location of this instance of kg,
-			// we need to set routes for allowed location IPs over the leader in the cuurrent location.
+			// we need to set routes for allowed location IPs over the leader in the current location.
 			for i := range segment.allowedLocationIPs {
 				routes = append(routes, encapsulateRoute(&netlink.Route{
 					Dst:       segment.allowedLocationIPs[i],
@@ -255,7 +255,7 @@ func (t *Topology) Rules(cni bool) []iptables.Rule {
 			rules = append(rules, iptables.NewRule(iptables.GetProtocol(len(aip.IP)), "nat", "KILO-NAT", "-d", aip.String(), "-m", "comment", "--comment", "Kilo: do not NAT packets destined for known IPs", "-j", "RETURN"))
 		}
 		// Make sure packets to allowed location IPs go through the KILO-NAT chain, so they can be MASQUERADEd,
-		// Otherwise packets to these destinations will reach the destitnation, but never find their way back.
+		// Otherwise packets to these destinations will reach the destination, but never find their way back.
 		// We only want to NAT in locations of the corresponding allowed location IPs.
 		if t.location == s.location {
 			for _, alip := range s.allowedLocationIPs {
